@@ -18,6 +18,7 @@ Ideas for improvement:
 * Use a third party for network storage, e.g. s3, drive.
 * Improved error handling on routes. Currently if anything fails it just returns a 400 with the error message.
 * Define the song metadata model to be more relational so robust queries could be implemented. (e.g. 'find all songs by Bob Dylan recorded between 1960 and 1969')
+* Additional unit/integration tests for routes and services.
 
 
 
