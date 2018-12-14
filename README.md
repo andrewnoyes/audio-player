@@ -19,6 +19,7 @@ Ideas for improvement:
 * Improved error handling on routes. Currently if anything fails it just returns a 400 with the error message.
 * Define the song metadata model to be more relational so robust queries could be implemented. (e.g. 'find all songs by Bob Dylan recorded between 1960 and 1969')
 * Additional unit/integration tests for routes and services.
+* Support uploading multiple songs at once.
 
 
 
