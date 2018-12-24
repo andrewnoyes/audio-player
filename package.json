@@ -1,0 +1,23 @@
+{
+  "name": "audio-player",
+  "version": "1.0.0",
+  "description": "The api directory contains the minimal, functional backend (app dir just a placeholder). It includes the ability to upload a song, \r retrieve all songs, and retrieve an individual song by its ID. Uploaded songs contain a `url` field for playback.",
+  "scripts": {
+    "start": "concurrently -k \"yarn start:api\" \"yarn start:web\"",
+    "start:api": "cd api && yarn start:dev",
+    "start:web": "cd app && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewnoyes/audio-player.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewnoyes/audio-player/issues"
+  },
+  "homepage": "https://github.com/andrewnoyes/audio-player#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
