@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { observer, inject } from 'mobx-react';
+
 import { withStyles, Theme } from '@material-ui/core/styles';
 
 import { SongLibrary, SongControls } from 'components';

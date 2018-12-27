@@ -1,31 +1,63 @@
 import * as React from 'react';
 
-import { withStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import HeadsetIcon from '@material-ui/icons/Headset';
+import {
+    withStyles,
+    Theme,
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+} from '@material-ui/core';
 
-const styles = (theme: Theme) => ({
+const styles: any = (theme: Theme) => ({
     root: {
         flexGrow: 1,
     },
     logo: {
         marginRight: theme.spacing.unit,
+        marginBottom: 10,
+        fontSize: 24,
     },
+    toolbar: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    connect: {
+        color: '#fff',
+    }
 });
 
-function Header(props: any) {
-    const { classes } = props;
+export interface IHeaderProps {
+    classes?: any;
+    onConnect: () => void;
+}
+
+function Header(props: IHeaderProps) {
+    const { classes, onConnect } = props;
 
     return (
         <div className={classes.root}>
             <AppBar position="fixed" color="primary">
-                <Toolbar>
-                    <HeadsetIcon className={classes.logo} />
-                    <Typography color="inherit" variant="h6">
-                        Aula Audio
-                    </Typography>
+                <Toolbar className={classes.toolbar}>
+                    <div className={classes.row}>
+                        <div className={classes.logo}>📻</div>
+                        <Typography color="inherit" variant="h6">
+                            Aula Audio
+                        </Typography>
+                    </div>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        className={classes.connect}
+                        onClick={onConnect}
+                    >
+                        Connect
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div >

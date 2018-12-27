@@ -39,7 +39,6 @@ export class SongsController {
     public async create(@UploadedFile() file): Promise<Song> {
         try {
             const { originalname, filename } = file;
-
             return await this.songService.createSong(originalname, filename);
         } catch (error) {
             throw new BadRequestException(error.message);

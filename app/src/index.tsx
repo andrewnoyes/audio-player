@@ -6,10 +6,10 @@ import { Provider } from 'mobx-react';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import { songStore } from 'stores';
+import { songStore, userStore } from 'stores';
 
 ReactDOM.render(
-  <Provider songStore={songStore}>
+  <Provider songStore={songStore} userStore={userStore}>
     <App />
   </Provider>,
   document.getElementById('root') as HTMLElement
