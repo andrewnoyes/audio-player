@@ -31,8 +31,8 @@ export class Client {
         return this.emit('user:disconnect');
     }
 
-    public updateUser = (status: string) => {
-        return this.emit('user:update', { status });
+    public updateUser = (song: any) => {
+        return this.emit('user:update', { song });
     }
 
     public onUserConnected = (fn: Function) => {

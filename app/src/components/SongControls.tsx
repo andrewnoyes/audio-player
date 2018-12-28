@@ -71,7 +71,6 @@ class SongControls extends React.Component<ISongControlsProps, {}> {
                         onPlay={onSongStarted}
                         onEnded={onSongStopped}
                         onPause={onSongStopped}
-                        onLoadedMetadata={this.handleMetadata}
                     />
                 </Paper>
                 <FilePicker accept="audio/*" onFilePicked={this.handleFilePicked}>
@@ -91,16 +90,8 @@ class SongControls extends React.Component<ISongControlsProps, {}> {
         )
     }
 
-    private handleFilePicked = (
-        _name: string,
-        _type: string,
-        file: any,
-    ) => {
+    private handleFilePicked = (_name: string, _type: string, file: any) => {
         this.props.uploadSong(file);
-    }
-
-    private handleMetadata = (meta: any) => {
-        console.log('loaded metadata', meta);
     }
 }
 

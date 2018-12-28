@@ -29,8 +29,8 @@ export class AppStore {
         client.disconnectUser();
     }
 
-    public updateUserStatus = async (status: string) => {
-        const response = await client.updateUser(status);
+    public updateUserSong = async (song: any) => {
+        const response = await client.updateUser(song);
         if (!response.successful) {
             console.log('failed to update user', response.error);
         }

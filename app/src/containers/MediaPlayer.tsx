@@ -57,12 +57,12 @@ class MediaPlayer extends React.Component<any, any> {
     private handleSongStarted = async () => {
         const { appStore, songStore } = this.props;
         const { selectedSong } = songStore;
-        await appStore.updateUserStatus(`${selectedSong.name}`);
+        await appStore.updateUserSong(selectedSong);
     }
 
     private handleSongStopped = async () => {
         const { appStore } = this.props;
-        await appStore.updateUserStatus('');
+        await appStore.updateUserSong(null);
     }
 }
 

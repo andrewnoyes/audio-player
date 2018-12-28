@@ -9,7 +9,7 @@ import * as pubsub from 'pubsub-js';
 interface IChannelUser {
     id: string;
     username: string;
-    status?: string;
+    song?: any;
 }
 
 @WebSocketGateway()
@@ -35,7 +35,7 @@ export class ChannelGateway implements OnGatewayDisconnect {
             otherUsers.push({
                 id: key,
                 username: value.username,
-                status: value.status || '',
+                song: value.song || null,
             });
         }
 
@@ -64,9 +64,9 @@ export class ChannelGateway implements OnGatewayDisconnect {
         }
 
         const user = Object.assign({}, this.users.get(client.id));
-        const { status } = data;
+        const { song } = data;
 
-        user.status = status || '';
+        user.song = song || null;
 
         this.users.set(client.id, user);
 

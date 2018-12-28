@@ -8,10 +8,10 @@ import {
     Typography,
     Paper,
     Chip,
-    Tooltip
+    Tooltip,
+    Avatar,
 } from '@material-ui/core';
-// import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PersonIcon from '@material-ui/icons/Person';
+import FaceIcon from '@material-ui/icons/Face';
 
 const styles: any = (theme: Theme) => ({
     root: {
@@ -79,17 +79,20 @@ class ChannelFeed extends React.Component<any, any> {
             <div className={classes.feed}>
                 {
                     users.map((user: any, index: number) => {
-                        const title = `${user.username} ${user.status ? ` - ${user.status}` : ''}`;
+                        console.log('user', user);
+                        const song = user.song ? ` - ${user.song.name}` : '';
+                        const title = `${user.username}${song}`;
+
                         return (
                             <Tooltip title={title} key={user.id}>
                                 <Chip
                                     label={title}
                                     classes={{ label: classes.feedItemLabel }}
-                                    color="primary"
-                                    icon={<PersonIcon />}
+                                    variant="outlined"
+                                    avatar={<Avatar><FaceIcon /></Avatar>}
                                     clickable={true}
                                     className={classes.feedItem}
-                                    variant="outlined"
+                                    onClick={user.song && this.handleItemClick(user.song)}
                                 />
                             </Tooltip>
                         )
@@ -98,6 +101,10 @@ class ChannelFeed extends React.Component<any, any> {
             </div>
 
         )
+    }
+
+    private handleItemClick = (song: any) => () => {
+        this.props.songStore.selectSong(song);
     }
 }
 
