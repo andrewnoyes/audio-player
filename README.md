@@ -7,7 +7,7 @@ Includes the single page app that interacts with the API. On connect, the user i
 
 Note - sessions are not persisted so page refresh results in username prompt again. 
 
-An app demo is available on a Heroku instance here: [https://aula-audio.herokuapp.com/](https://aula-audio.herokuapp.com/)
+An app demo is available on a Heroku instance here: [https://aula-audio.herokuapp.com/](https://aula-audio.herokuapp.com/). This is running on the free tier, so if it takes a second to connect it's because the dyno instance(s) fell asleep. Also, this will purge the contents of the song-uploads directory on restarts.
 
 Dev setup:
 
