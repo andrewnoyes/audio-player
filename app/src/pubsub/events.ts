@@ -1,0 +1,2 @@
+export const APP_CONNECTED = 'APP-CONNECTED';
+export const APP_DISCONNECTED = 'APP-DISCONNECTED';

@@ -2,12 +2,19 @@ import * as React from 'react';
 
 import { observer, inject } from 'mobx-react';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import teal from '@material-ui/core/colors/teal';
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  CssBaseline,
+} from '@material-ui/core';
+import { deepPurple, teal } from '@material-ui/core/colors';
 
-import { Header, Content, UserDialog } from 'components';
+import {
+  Header,
+  Content,
+  UserDialog,
+  ProgressIndicator,
+} from 'components';
 import { MediaPlayer } from 'containers'
 
 const theme = createMuiTheme({
@@ -25,7 +32,13 @@ const theme = createMuiTheme({
 class App extends React.Component<any, any> {
   public render() {
     const { appStore } = this.props;
-    const { userConnected, connect, disconnect, username } = appStore;
+    const {
+      userConnected,
+      connect,
+      disconnect,
+      username,
+      appConnected,
+    } = appStore;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -35,15 +48,10 @@ class App extends React.Component<any, any> {
           onDisconnect={disconnect}
           username={username}
         />
-        {
-          userConnected
-            ?
-            <Content>
-              <MediaPlayer />
-            </Content>
-            : null
-        }
-        <UserDialog open={!userConnected} onConnect={connect} />
+        <Content>
+          {!appConnected ? <ProgressIndicator /> : userConnected ? <MediaPlayer /> : null}
+        </Content>
+        <UserDialog open={appConnected && !userConnected} onConnect={connect} />
       </MuiThemeProvider>
     );
   }
