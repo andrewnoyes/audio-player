@@ -59,6 +59,7 @@ class SongControls extends React.Component<ISongControlsProps, {}> {
                     <ReactAudioPlayer
                         src={audioSrc}
                         controls={true}
+                        autoPlay={true}
                     />
                 </Paper>
                 <FilePicker accept="audio/*" onFilePicked={this.handleFilePicked}>

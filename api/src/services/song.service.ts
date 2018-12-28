@@ -26,12 +26,16 @@ export class SongService {
         song.url = `${BASE_URL}/media/${filename}`;
 
         try {
-            const metadata = await mm.parseFile(filepath, { native: true });
-            // tslint:disable-next-line:no-console
-            console.log('metadata', metadata);
+            const metadata = await mm.parseFile(filepath);
+            if (metadata && metadata.common) {
+                const { title, artist, album } = metadata.common;
+                song.name = title || name;
+                song.artist = artist || '';
+                song.album = album || '';
+            }
         } catch (error) {
             // tslint:disable-next-line:no-console
-            console.log('failed parse metadata', error);
+            console.log('failed parsing metadata', error);
         }
 
         await this.saveSong(song);
