@@ -15,6 +15,10 @@ export class SongStore {
     @observable
     public selectedSong: any;
 
+    constructor() {
+        client.onSongCreated(this.onSongCreated);
+    }
+
     public loadSongs = async () => {
         try {
             this.setLoading(true);
@@ -33,11 +37,7 @@ export class SongStore {
         try {
             this.setUploading(true);
 
-            const song = await client.uploadSong(file);
-            const songs = this.songs.slice();
-            songs.push(song);
-
-            this.setSongs(songs);
+            await client.uploadSong(file);
         } catch (error) {
             console.log('uploadSong', error.message);
         } finally {
@@ -63,6 +63,11 @@ export class SongStore {
     @action
     private setUploading = (uploading: boolean) => {
         this.uploading = uploading;
+    }
+
+    @action
+    private onSongCreated = (song: any) => {
+        this.songs.push(song);
     }
 }
 

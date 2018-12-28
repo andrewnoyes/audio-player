@@ -47,6 +47,10 @@ export class Client {
         this.socket.on('user:updated', fn);
     }
 
+    public onSongCreated = (fn: Function) => {
+        this.socket.on('song:created', fn);
+    }
+
     public onAppConnected = (fn: Function) => {
         this.socket.on('connect', fn);
     }

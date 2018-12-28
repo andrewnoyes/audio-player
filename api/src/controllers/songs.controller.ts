@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { diskStorage } from 'multer';
 import * as uuid from 'uuid/v4';
+import * as pubsub from 'pubsub-js';
 
 import { Song } from 'entities';
 import { SongService } from 'services';
@@ -50,7 +51,11 @@ export class SongsController {
     public async create(@UploadedFile() file): Promise<Song> {
         try {
             const { originalname, filename, path } = file;
-            return await this.songService.createSong(originalname, filename, path);
+            const song = await this.songService.createSong(originalname, filename, path);
+
+            pubsub.publish('song-created', song);
+
+            return song;
         } catch (error) {
             throw new BadRequestException(error.message);
         }

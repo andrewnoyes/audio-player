@@ -4,6 +4,7 @@ import {
     WebSocketServer,
     OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import * as pubsub from 'pubsub-js';
 
 interface IChannelUser {
     id: string;
@@ -17,6 +18,10 @@ export class ChannelGateway implements OnGatewayDisconnect {
     private server;
 
     private users: Map<string, IChannelUser> = new Map();
+
+    constructor() {
+        pubsub.subscribe('song-created', this.onSongCreated);
+    }
 
     @SubscribeMessage('user:connect')
     public onConnectUser(client: any, data: any): any {
@@ -76,5 +81,9 @@ export class ChannelGateway implements OnGatewayDisconnect {
         }
 
         client.broadcast.emit('user:disconnected', { id: client.id });
+    }
+
+    private onSongCreated = (message: string, song: any) => {
+        this.server.emit('song:created', song);
     }
 }
