@@ -8,6 +8,8 @@ import {
     FileInterceptor,
     UploadedFile,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
+import * as uuid from 'uuid/v4';
 
 import { Song } from 'entities';
 import { SongService } from 'services';
@@ -35,11 +37,20 @@ export class SongsController {
     }
 
     @Post()
-    @UseInterceptors(FileInterceptor('file', { dest: 'songs-uploads' }))
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, 'songs-uploads');
+            },
+            filename: (req, file, cb) => {
+                cb(null, `${uuid()}-${file.originalname}`);
+            },
+        }),
+    }))
     public async create(@UploadedFile() file): Promise<Song> {
         try {
-            const { originalname, filename } = file;
-            return await this.songService.createSong(originalname, filename);
+            const { originalname, filename, path } = file;
+            return await this.songService.createSong(originalname, filename, path);
         } catch (error) {
             throw new BadRequestException(error.message);
         }

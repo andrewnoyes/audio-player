@@ -3,5 +3,7 @@ export class Song {
     createdAt: Date;
     name: string;
     filename: string;
+    artist?: string;
+    album?: string;
     url: string;
 }

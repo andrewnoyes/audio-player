@@ -17,6 +17,7 @@ const styles: any = (theme: Theme) => ({
         minWidth: 300,
         maxWidth: 300,
         borderLeft: '1px solid #ddd',
+        overflowY: 'auto',
     },
     header: {
         textAlign: 'center',

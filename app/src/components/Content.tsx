@@ -11,6 +11,7 @@ const styles: any = (theme: Theme) =>({
         [theme.breakpoints.up("sm")]: {
             top: 64,
         },
+        overflowY: 'hidden',
     },
 });
 

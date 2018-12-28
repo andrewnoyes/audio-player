@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as uuid from 'uuid/v4';
 import * as fs from 'fs';
+import * as mm from 'music-metadata';
 
 import { Song } from 'entities';
 
@@ -15,7 +16,7 @@ const getMetadataPath = (songId: string) => `${METADATA_DIR}/${songId}`;
 
 @Injectable()
 export class SongService {
-    public async createSong(name: string, filename: string) {
+    public async createSong(name: string, filename: string, filepath: string) {
         const song = new Song();
 
         song.id = uuid();
@@ -23,6 +24,15 @@ export class SongService {
         song.filename = filename;
         song.createdAt = new Date();
         song.url = `${BASE_URL}/media/${filename}`;
+
+        try {
+            const metadata = await mm.parseFile(filepath, { native: true });
+            // tslint:disable-next-line:no-console
+            console.log('metadata', metadata);
+        } catch (error) {
+            // tslint:disable-next-line:no-console
+            console.log('failed parse metadata', error);
+        }
 
         await this.saveSong(song);
 
