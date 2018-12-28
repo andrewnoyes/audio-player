@@ -31,12 +31,20 @@ export class Client {
         return this.emit('user:disconnect');
     }
 
+    public updateUser = (status: string) => {
+        return this.emit('user:update', { status });
+    }
+
     public onUserConnected = (fn: Function) => {
         this.socket.on('user:connected', fn);
     }
 
     public onUserDisconnected = (fn: Function) => {
         this.socket.on('user:disconnected', fn);
+    }
+
+    public onUserUpdated = (fn: Function) => {
+        this.socket.on('user:updated', fn);
     }
 
     public onAppConnected = (fn: Function) => {

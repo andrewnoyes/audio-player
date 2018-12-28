@@ -8,8 +8,10 @@ import {
     Typography,
     Paper,
     Chip,
+    Tooltip
 } from '@material-ui/core';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+// import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PersonIcon from '@material-ui/icons/Person';
 
 const styles: any = (theme: Theme) => ({
     root: {
@@ -18,6 +20,7 @@ const styles: any = (theme: Theme) => ({
         maxWidth: 300,
         borderLeft: '1px solid #ddd',
         overflowY: 'auto',
+        backgroundColor: theme.palette.background.paper,
     },
     header: {
         textAlign: 'center',
@@ -29,13 +32,20 @@ const styles: any = (theme: Theme) => ({
     feed: {
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
     },
     feedItem: {
         margin: theme.spacing.unit * 2,
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
+    feedItemLabel: {
+        textOverflow: 'clip',
+        overflow: 'hidden',
     },
 });
 
-@inject('channelStore')
+@inject('channelStore', 'songStore')
 @observer
 class ChannelFeed extends React.Component<any, any> {
     public render() {
@@ -68,17 +78,22 @@ class ChannelFeed extends React.Component<any, any> {
         return (
             <div className={classes.feed}>
                 {
-                    users.map((user: any, index: number) => (
-                        <Chip
-                            key={user.id}
-                            label={user.username}
-                            color="primary"
-                            icon={<PlayArrowIcon />}
-                            clickable={true}
-                            className={classes.feedItem}
-                            variant="outlined"
-                        />
-                    ))
+                    users.map((user: any, index: number) => {
+                        const title = `${user.username} ${user.status ? ` - ${user.status}` : ''}`;
+                        return (
+                            <Tooltip title={title} key={user.id}>
+                                <Chip
+                                    label={title}
+                                    classes={{ label: classes.feedItemLabel }}
+                                    color="primary"
+                                    icon={<PersonIcon />}
+                                    clickable={true}
+                                    className={classes.feedItem}
+                                    variant="outlined"
+                                />
+                            </Tooltip>
+                        )
+                    })
                 }
             </div>
 

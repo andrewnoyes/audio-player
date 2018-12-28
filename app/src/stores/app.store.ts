@@ -1,7 +1,7 @@
 import { action, observable, computed } from 'mobx';
 
 import { client } from 'api';
-import {pubsub, CHANNEL_USERS_RECEIVED} from 'pubsub';
+import { pubsub, CHANNEL_USERS_RECEIVED } from 'pubsub';
 
 export class AppStore {
     @observable
@@ -27,6 +27,13 @@ export class AppStore {
     public disconnect = () => {
         this.clearUsername();
         client.disconnectUser();
+    }
+
+    public updateUserStatus = async (status: string) => {
+        const response = await client.updateUser(status);
+        if (!response.successful) {
+            console.log('failed to update user', response.error);
+        }
     }
 
     @action

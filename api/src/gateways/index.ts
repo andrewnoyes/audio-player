@@ -1,1 +1,1 @@
-export { UserGateway } from './user.gateway';
+export { ChannelGateway } from './channel.gateway';

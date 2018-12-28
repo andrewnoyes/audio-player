@@ -44,12 +44,20 @@ export interface ISongControlsProps {
     loading: boolean;
     classes?: any;
     selectedSong?: any;
+    onSongStarted: () => void;
+    onSongStopped: () => void;
 }
 
 @observer
 class SongControls extends React.Component<ISongControlsProps, {}> {
     public render() {
-        const { classes, loading, selectedSong } = this.props;
+        const {
+            classes,
+            loading,
+            selectedSong,
+            onSongStarted,
+            onSongStopped,
+        } = this.props;
 
         const audioSrc = selectedSong && selectedSong.url;
 
@@ -60,6 +68,10 @@ class SongControls extends React.Component<ISongControlsProps, {}> {
                         src={audioSrc}
                         controls={true}
                         autoPlay={true}
+                        onPlay={onSongStarted}
+                        onEnded={onSongStopped}
+                        onPause={onSongStopped}
+                        onLoadedMetadata={this.handleMetadata}
                     />
                 </Paper>
                 <FilePicker accept="audio/*" onFilePicked={this.handleFilePicked}>
@@ -85,6 +97,10 @@ class SongControls extends React.Component<ISongControlsProps, {}> {
         file: any,
     ) => {
         this.props.uploadSong(file);
+    }
+
+    private handleMetadata = (meta: any) => {
+        console.log('loaded metadata', meta);
     }
 }
 

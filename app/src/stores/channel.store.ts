@@ -15,6 +15,7 @@ export class ChannelStore {
     constructor() {
         client.onUserConnected(this.onUserConnected);
         client.onUserDisconnected(this.onUserDisconnected);
+        client.onUserUpdated(this.onUserUpdated);
 
         pubsub.subscribe(CHANNEL_USERS_RECEIVED, this.onChannelUsersReceived)
     }
@@ -34,6 +35,13 @@ export class ChannelStore {
         const userIndex = this.users.findIndex(u => u.id === user.id);
         if (userIndex >= 0) {
             this.users.splice(userIndex, 1);
+        }
+    }
+
+    private onUserUpdated = (user: any) => {
+        const userIndex = this.users.findIndex(u => u.id === user.id);
+        if (userIndex >= 0) {
+            this.users[userIndex] = Object.assign({}, this.users[userIndex], user);
         }
     }
 }

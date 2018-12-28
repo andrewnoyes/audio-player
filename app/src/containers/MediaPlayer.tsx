@@ -17,7 +17,7 @@ const styles: any = (theme: Theme) => ({
     },
 });
 
-@inject('songStore')
+@inject('appStore', 'songStore')
 @observer
 class MediaPlayer extends React.Component<any, any> {
     componentDidMount() {
@@ -47,9 +47,22 @@ class MediaPlayer extends React.Component<any, any> {
                     loading={uploading}
                     uploadSong={uploadSong}
                     selectedSong={selectedSong}
+                    onSongStarted={this.handleSongStarted}
+                    onSongStopped={this.handleSongStopped}
                 />
             </div>
         )
+    }
+
+    private handleSongStarted = async () => {
+        const { appStore, songStore } = this.props;
+        const { selectedSong } = songStore;
+        await appStore.updateUserStatus(`${selectedSong.name}`);
+    }
+
+    private handleSongStopped = async () => {
+        const { appStore } = this.props;
+        await appStore.updateUserStatus('');
     }
 }
 
