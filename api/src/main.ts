@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { join } from 'path';
+
+import { AppModule } from './app.module';
+import { PORT } from './config';
 
 const corsOptions = {
   origin: (origin, cb) => {
@@ -14,6 +16,6 @@ async function bootstrap() {
   app.enableCors(corsOptions);
   app.useStaticAssets(join(__dirname, '..', 'songs-uploads'), { prefix: '/media/' });
 
-  await app.listen(1337);
+  await app.listen(PORT);
 }
 bootstrap();
