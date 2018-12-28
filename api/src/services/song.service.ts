@@ -6,7 +6,7 @@ import * as mm from 'music-metadata';
 import { Song } from 'entities';
 
 const METADATA_DIR = './songs-metadata';
-const BASE_URL = 'http://localhost:1337'; // TODO: just for dev, move to config
+const BASE_URL = process.env.BASE_URL || 'http://localhost:1337';
 
 if (!fs.existsSync(METADATA_DIR)) {
     fs.mkdirSync(METADATA_DIR);
