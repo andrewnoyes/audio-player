@@ -20,27 +20,32 @@ const theme = createMuiTheme({
   },
 });
 
-@inject('userStore')
+@inject('appStore')
 @observer
 class App extends React.Component<any, any> {
   public render() {
-    const { userStore } = this.props;
+    const { appStore } = this.props;
+    const { userConnected, connect, disconnect, username } = appStore;
 
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <Header onConnect={userStore.toggleDisplayConnect} />
-        <Content>
-          <MediaPlayer />
-        </Content>
-        <UserDialog open={userStore.displayConnect} onConnect={this.handleConnect} />
+        <Header
+          connected={userConnected}
+          onDisconnect={disconnect}
+          username={username}
+        />
+        {
+          userConnected
+            ?
+            <Content>
+              <MediaPlayer />
+            </Content>
+            : null
+        }
+        <UserDialog open={!userConnected} onConnect={connect} />
       </MuiThemeProvider>
     );
-  }
-
-  private handleConnect = (username: string) => {
-    // TODO!
-    this.props.userStore.toggleDisplayConnect();
   }
 }
 

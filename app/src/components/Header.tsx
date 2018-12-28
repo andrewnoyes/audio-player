@@ -22,6 +22,9 @@ const styles: any = (theme: Theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    username: {
+        marginRight: theme.spacing.unit * 2,
+    },
     row: {
         display: 'flex',
         flexDirection: 'row',
@@ -34,11 +37,13 @@ const styles: any = (theme: Theme) => ({
 
 export interface IHeaderProps {
     classes?: any;
-    onConnect: () => void;
+    onDisconnect: () => void;
+    connected: boolean;
+    username?: string;
 }
 
 function Header(props: IHeaderProps) {
-    const { classes, onConnect } = props;
+    const { classes, onDisconnect, connected, username } = props;
 
     return (
         <div className={classes.root}>
@@ -50,14 +55,24 @@ function Header(props: IHeaderProps) {
                             Aula Audio
                         </Typography>
                     </div>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.connect}
-                        onClick={onConnect}
-                    >
-                        Connect
-                    </Button>
+                    {
+                        connected
+                            ?
+                            <div className={classes.row}>
+                                <Typography color="inherit" variant="h6" className={classes.username}>
+                                    {username}
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.connect}
+                                    onClick={onDisconnect}
+                                >
+                                    Disconnect
+                                </Button>
+                            </div>
+                            : null
+                    }
                 </Toolbar>
             </AppBar>
         </div >

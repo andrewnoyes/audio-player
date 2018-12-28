@@ -5,14 +5,13 @@ import {
     Theme,
     Dialog,
     DialogContent,
+    DialogContentText,
+    DialogTitle,
     Button,
     TextField,
 } from '@material-ui/core';
 
 const styles: any = (theme: Theme) => ({
-    content: {
-        padding: theme.spacing.unit * 2,
-    },
     connect: {
         marginTop: theme.spacing.unit,
         color: '#fff',
@@ -36,24 +35,30 @@ class UserDialog extends React.Component<ISignInDialogProps, any> {
 
         return (
             <Dialog open={open}>
-                <DialogContent className={classes.content}>
-                    <TextField
-                        value={username}
-                        onChange={this.handleUsernameChange}
-                        fullWidth={true}
-                        margin="normal"
-                        label="Username"
-                    />
-                    <Button
-                        disabled={!username}
-                        variant="contained"
-                        color="secondary"
-                        onClick={this.handleConnect}
-                        fullWidth={true}
-                        className={classes.connect}
-                    >
-                        Connect
-                    </Button>
+                <DialogTitle>🔌 Connect</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Enter a username to connect!</DialogContentText>
+                    <form onSubmit={this.handleSubmit}>
+                        <TextField
+                            value={username}
+                            onChange={this.handleUsernameChange}
+                            fullWidth={true}
+                            margin="normal"
+                            label="Username"
+                            required={true}
+                            autoFocus={true}
+                        />
+                        <Button
+                            disabled={!username}
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                            fullWidth={true}
+                            className={classes.connect}
+                        >
+                            Connect
+                        </Button>
+                    </form>
                 </DialogContent>
             </Dialog>
         )
@@ -61,12 +66,12 @@ class UserDialog extends React.Component<ISignInDialogProps, any> {
 
     private handleUsernameChange = (e: any) => this.setState({ username: e.target.value });
 
-    private handleConnect = () => {
-        if (!this.state.username) {
-            return;
-        }
+    private handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-        this.props.onConnect(this.state.username);
+        if (this.state.username) {
+            this.props.onConnect(this.state.username);
+        }
     }
 }
 
