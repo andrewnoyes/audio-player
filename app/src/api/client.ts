@@ -1,7 +1,6 @@
 import axios from 'axios';
 import * as io from 'socket.io-client';
 
-import { pubsub, APP_CONNECTED, APP_DISCONNECTED } from 'pubsub';
 import { API_URL } from './config';
 
 export class Client {
@@ -9,8 +8,6 @@ export class Client {
 
     constructor() {
         this.socket = io(API_URL);
-        this.socket.on('connect', this.onConnected);
-        this.socket.on('disconnect', this.onDisconnected);
     }
 
     public uploadSong = async (file: any) => {
@@ -30,8 +27,24 @@ export class Client {
         return this.emit('user:connect', { username });
     }
 
+    public disconnectUser = () => {
+        return this.emit('user:disconnect');
+    }
+
     public onUserConnected = (fn: Function) => {
         this.socket.on('user:connected', fn);
+    }
+
+    public onUserDisconnected = (fn: Function) => {
+        this.socket.on('user:disconnected', fn);
+    }
+
+    public onAppConnected = (fn: Function) => {
+        this.socket.on('connect', fn);
+    }
+
+    public onAppDisconnected = (fn: Function) => {
+        this.socket.on('disconnect', fn);
     }
 
     private emit = async (action: string, data?: any): Promise<any> => {
@@ -48,15 +61,6 @@ export class Client {
         )
     }
 
-    private onConnected = () => {
-        console.log('socket connected');
-        pubsub.publish(APP_CONNECTED, null);
-    }
-
-    private onDisconnected = () => {
-        console.log('socket disconnected');
-        pubsub.publish(APP_DISCONNECTED, null);
-    }
 }
 
 export default new Client();

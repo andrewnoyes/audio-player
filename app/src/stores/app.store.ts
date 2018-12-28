@@ -1,9 +1,7 @@
 import { action, observable, computed } from 'mobx';
 
 import { client } from 'api';
-import { pubsub, APP_CONNECTED, APP_DISCONNECTED } from 'pubsub';
-
-const USERNAME = 'app.store.username';
+import {pubsub, CHANNEL_USERS_RECEIVED} from 'pubsub';
 
 export class AppStore {
     @observable
@@ -18,8 +16,8 @@ export class AppStore {
     }
 
     constructor() {
-        pubsub.subscribe(APP_CONNECTED, this.onAppConnected);
-        pubsub.subscribe(APP_DISCONNECTED, this.onAppDisconnected);
+        client.onAppConnected(this.onAppConnected);
+        client.onAppDisconnected(this.onAppDisconnected);
     }
 
     public connect = async (username: string) => {
@@ -27,7 +25,8 @@ export class AppStore {
     }
 
     public disconnect = () => {
-      this.clearUsername();
+        this.clearUsername();
+        client.disconnectUser();
     }
 
     @action
@@ -38,13 +37,11 @@ export class AppStore {
     @action
     private setUsername = (username: string) => {
         this.username = username;
-        localStorage.setItem(USERNAME, username);
     }
-    
+
     @action
     private clearUsername = () => {
         this.username = '';
-        localStorage.removeItem(USERNAME);
     }
 
     private connectUser = async (username: string) => {
@@ -52,16 +49,12 @@ export class AppStore {
         if (response.successful) {
             console.log('user connected');
             this.setUsername(username);
+
+            pubsub.publish(CHANNEL_USERS_RECEIVED, response.users);
         }
     }
 
     private onAppConnected = async () => {
-        // try to refresh "session" from localstorage
-        const previous = localStorage.getItem(USERNAME);
-        if (previous) {
-            await this.connectUser(previous);
-        }
-
         this.setAppConnected(true);
     }
 

@@ -10,6 +10,7 @@ const styles: any = (theme: Theme) => ({
     root: {
         padding: theme.spacing.unit * 4,
         maxHeight: 'calc(100% - 86px)',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

@@ -20,7 +20,7 @@ const styles: any = (theme: Theme) => ({
         display: 'flex',
         flexDirection: 'row',
         bottom: theme.spacing.unit * 4,
-        position: 'fixed',
+        position: 'absolute',
         alignItems: 'center',
     },
     controls: {
